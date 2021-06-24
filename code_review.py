@@ -42,12 +42,12 @@ def localAlignment(stringOne, stringTwo):
         for col in range(1,len(scoreMatrix[row])):
 
             #gets the value of deletion, insertion and match/mistmatch
-            deletion = (scoreMatrix[row-1][col] )- indelValue #down
-            insertion = (scoreMatrix[row][col-1])-indelValue #insertion
+            down = (scoreMatrix[row-1][col] )- indelValue #deletion
+            right = (scoreMatrix[row][col-1])-indelValue #insertion
             match = (scoreMatrix[row-1][col-1] + pam250[stringOne[col-1]][stringTwo[row-1]])
 
             #selects the max of the three
-            maxSC= max(deletion, insertion, match,0)
+            maxSC= max(down, right, match,0)
             #assigns it to the index
             scoreMatrix[row][col] = maxSC
 
@@ -58,9 +58,9 @@ def localAlignment(stringOne, stringTwo):
             #records the direction
             if(scoreMatrix[row][col] == 0):
                 backTrack[row][col] = 4
-            elif(scoreMatrix[row][col] == deletion):
+            elif(scoreMatrix[row][col] == down):
                 backTrack[row][col] = 1
-            elif(scoreMatrix[row][col] == insertion):
+            elif(scoreMatrix[row][col] == right):
                 backTrack[row][col] = 2
             else:
                 backTrack[row][col] = 3
